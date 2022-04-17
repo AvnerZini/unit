@@ -17,5 +17,15 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag avzini/unit:latest
 
-    - name: Push Docker image to docker.io
-      run: docker push avzini/unit:latest
+    
+    - name: Login to DockerHub
+      uses: docker/login-action@v1 
+      with:
+        username: "avzini"
+        password: "cafeed6a-d47d-4fc3-9d5a-f7829facdd17"
+
+    - name: Build and push
+      uses: docker/build-push-action@v2.10.0
+      with:
+        push: true
+        tags: avzini/unit:latest
