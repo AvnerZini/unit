@@ -32,6 +32,12 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
       - name: Kustomize Github Action
-        uses: karancode/kustomize-github-action@v1.2.4
-        run: |
-          kustomize build deployment/kustomize/base --enable-helm
+        uses: karancode/kustomize-github-action@master
+        with:
+          kustomize_version: '3.0.0'
+          kustomize_build_dir: 'deployment/kustomize/base'
+          kustomize_comment: true
+          kustomize_output_file: "gitops/rendered.yaml"
+          kustomize_build_options: "--load_restrictor none"
+          enable_alpha_plugins: true
+
