@@ -1,21 +1,30 @@
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
-
 metadata:
   name: unit-job
   region: eu-central-1
-
+iam:
+  withOIDC: true        
+vpc:
+  id: "vpc-dbd1dbb0" # (optional, must match VPC ID used for each subnet below)
+  cidr: "172.31.0.0/16" # (optional, must match CIDR used by the given VPC)
+  subnets:
+    # must provide 'private' and/or 'public' subnets by availibility zone as shown
+    public:
+      eu-central-1a:
+        id: "subnet-fb649691"
+        cidr: "172.31.16.0/20"
+      eu-central-1b:
+        id: "subnet-8aedc5f7"
+        cidr: "172.31.32.0/20"
+      eu-central-1c:
+        id: "subnet-814976cc"
+        cidr: "172.31.0.0/20"      
 managedNodeGroups:
-- name: unit-spot
-  instanceSelector:
-    vCPUs: 1
-    memory: "1"
-    cpuArchitecture: x86_64
-  spot: true
-  labels: { spot: 'true' }
+- name: unit-spotm
+  instanceType: t3a.small
   minSize: 1
-  maxSize: 5
+  maxSize: 3
   iam:
     withAddonPolicies:
       autoScaler: true
-      imageBuilder: true

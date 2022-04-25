@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nodejs-rest-api
+  namespace: dev
+spec:
+  containers:
+    - image: avzini/unit:latest
+      name: nodejs-rest-api
+      imagePullPolicy: IfNotPresent
+      resources:
+        limits:
+          cpu: 100m
+          memory: 100Mi
+        requests:
+          cpu: 50m
+          memory: 10Mi
+  restartPolicy: Never
